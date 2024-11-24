@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐬 EEeEeEEEE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            textarea {
+                font-size: 16px; /* 防止iOS自动缩放 */
+                padding: 10px;
+            }
+            
+            button {
+                width: 100%; /* 按钮占满宽度，更容易点击 */
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+        
+        /* 触摸设备优化 */
+        @media (hover: none) {
+            button:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            button:active {
+                background: #2980b9;
+            }
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-size: 14px;
+            resize: vertical;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>🐬 EEeEeEEEE</h1>
+    <textarea id="dolphinInput" placeholder="Enter Dolphin Code (Use E for . and e for -)"></textarea>
+    <button onclick="translateToHuman()">Translate to English</button>
+    <textarea id="humanInput" placeholder="Enter English Text"></textarea>
+    <button onclick="translateToDolphin()">Translate to Dolphin</button>
+
+    <script>
+        const morseCode = {
+            '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
+            '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
+            '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',
+            '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',
+            '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',
+            '--..': 'Z', '-----': '0', '.----': '1', '..---': '2', '...--': '3',
+            '....-': '4', '.....': '5', '-....': '6', '--...': '7', '---..': '8',
+            '----.': '9', '.-.-.-': '.', '--..--': ',', '..--..': '?',
+            '.----.': "'", '-.-.--': '!', '-..-.': '/',
+            '-.--.': '(', '-.--.-': ')', '.-...': '&',
+            '---...': ':', '-.-.-.': ';', '-...-': '=',
+            '.-.-.': '+', '-....-': '-', '..--.-': '_',
+            '.-..-.': '"', '...-..-': '$', '.--.-.': '@',
+            ' ': ' '
+        };
+
+        function translateToHuman() {
+            const dolphinInput = document.getElementById('dolphinInput');
+            const humanInput = document.getElementById('humanInput');
+            
+            let morse = dolphinInput.value
+                .trim()
+                .replace(/E/g, '.')
+                .replace(/e/g, '-')
+                .split(/\s+/);
+            
+            let english = morse.map(code => morseCode[code] || '').join('');
+            humanInput.value = english;
+        }
+
+        function translateToDolphin() {
+            const dolphinInput = document.getElementById('dolphinInput');
+            const humanInput = document.getElementById('humanInput');
+            
+            let dolphin = humanInput.value.replace(/\s+/g, '').toUpperCase().split('').map(char => {
+                let morse = Object.entries(morseCode).find(([_, letter]) => letter === char);
+                return morse ? morse[0].replace(/\./g, 'E').replace(/-/g, 'e') : ' ';
+            }).join(' ');
+            
+            dolphinInput.value = dolphin.trim();
+        }
+    </script>
+</body>
+</html>
+
